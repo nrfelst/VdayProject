@@ -81,13 +81,20 @@ body {
 }
 
 /* FINAL MESSAGE */
-#message {
-    text-align: center;
-    margin-top: 20px;
+#message h1 {
+    font-size: 3rem;       /* makes the header big */
+    line-height: 1.2;      /* tightens spacing between lines if multiline */
+    text-align: center;    /* center it */
+    margin-bottom: 20px;   /* space below heading */
     animation: fadeInMessage 2s ease-in forwards; /* fade in animation */
     color: #b30000;
 }
-
+#message p {
+    font-size: 1.4rem;    /* slightly larger than default */
+    text-align: center;
+    margin: 5px 0;        /* spacing between lines */
+    color: #b30000;       /* or something complementary */
+}
 /* Fade-in animation for message */
 @keyframes fadeInMessage {
     0% { opacity: 0; transform: translateY(20px); }
