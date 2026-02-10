@@ -16,14 +16,8 @@ const slideshowContainer = document.getElementById("slideshow-container");
 const music = document.getElementById("music");
 
 let current = 0;
-// 3️⃣ Preload next image function
-function preloadImage(index) {
-    const img = new Image();
-    img.src = images[index];
-    return img;
-}
-
-// 4️⃣ Show next image with fade
+const fadeDuration = 2000;      // 2 seconds fade-out / fade-in
+const visibleDuration = 4000;   // 4 seconds fully visible
 function showNext() {
     if (current >= images.length) {
         // End of slideshow
@@ -32,24 +26,29 @@ function showNext() {
         return;
     }
 
-    // Start fade-out
-    slide.style.opacity = 0;
-
-    // Preload next image
-    const nextImg = preloadImage(current);
+    // Preload the next image
+    const nextImg = new Image();
+    nextImg.src = images[current];
 
     nextImg.onload = () => {
-        // Wait for fade-out to finish (matches CSS)
+        // Wait for the image to be fully visible before starting fade-out
         setTimeout(() => {
-            slide.src = nextImg.src;   // switch image
-            slide.style.opacity = 1;   // fade in
-            current++;
+            // Start fade-out
+            slide.style.opacity = 0;
 
-            // Schedule next slide after 4s visible + 2s fade
-            setTimeout(showNext, 4000); // adjust visible time
-        }, 2000); // fade-out duration in ms
+            setTimeout(() => {
+                // Switch image after fade-out
+                slide.src = nextImg.src;
+                slide.style.opacity = 1; // fade-in
+                current++;
+
+                // Schedule next slide
+                showNext();
+            }, fadeDuration); // wait for fade-out to complete
+        }, visibleDuration); // image stays fully visible before fading
     };
 }
+
 
 // 4️⃣ Function to start slideshow and music
 function startSlideshow() {
@@ -58,10 +57,14 @@ function startSlideshow() {
     music.play().catch(() => {
         console.log("Autoplay blocked. Click to start music.");
     });
+    slide.src = images[0];
+    slide.style.opacity = 1;
+    current = 1; // next image to show
 
-    current = 0; // reset counter
-    showNext(); // show first image immediately
-    // slideshowInterval = setInterval(showNext, 5000); // flip every 10 seconds
+    music.play().catch(() => console.log("Autoplay blocked"));
+
+    // Start the chain
+    showNext();
 }
 
 // 5️⃣ Start button click event
