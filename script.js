@@ -17,7 +17,8 @@ const music = document.getElementById("music");
 
 let current = 0;
 const fadeDuration = 2000;      // 2 seconds fade-out / fade-in
-const visibleDuration = 4000;   // 4 seconds fully visible
+const visibleDuration = 4000;
+const pauseDuration = 500;   // 4 seconds fully visible
 function showNext() {
     if (current >= images.length) {
         // End of slideshow
@@ -25,7 +26,7 @@ function showNext() {
         message.style.display = "block";
         return;
     }
-
+    slide.style.opacity = 0;
     // Preload the next image
     const nextImg = new Image();
     nextImg.src = images[current];
@@ -33,8 +34,6 @@ function showNext() {
     nextImg.onload = () => {
         // Wait for the image to be fully visible before starting fade-out
         setTimeout(() => {
-            // Start fade-out
-            slide.style.opacity = 0;
 
             setTimeout(() => {
                 // Switch image after fade-out
@@ -43,8 +42,8 @@ function showNext() {
                 current++;
 
                 // Schedule next slide
-                showNext();
-            }, fadeDuration); // wait for fade-out to complete
+                setTimeout(showNext, visibleDuration);
+            }, pauseDuration); // wait for fade-out to complete
         }, visibleDuration); // image stays fully visible before fading
     };
 }
