@@ -7,6 +7,12 @@ for (let i = 2; i <= 39; i++) {
     images.push(`images/image${i}.jpeg`);
 }
 
+const preloadedImages = [];
+images.forEach((src) => {
+    const img = new Image();
+    img.src = src;
+    preloadedImages.push(img);
+});
 // 2️⃣ Get HTML elements
 const slide = document.getElementById("slide");
 const message = document.getElementById("message");
@@ -20,25 +26,26 @@ let slideshowInterval;
 
 // 3️⃣ Function to show next image with fade effect
 function showNext() {
-    if (current < images.length) {
-        // Start fade out
+    if (current < preloadedImages.length) {
+        // 1️⃣ Start fade-out
         slide.style.opacity = 0;
 
-        // Preload the next image
-        const nextImage = new Image();
-        nextImage.src = images[current];
+        // 2️⃣ Wait for fade-out to finish (matches CSS transition duration)
+        setTimeout(() => {
+            // 3️⃣ Change image AFTER fade-out
+            slide.src = preloadedImages[current].src;
 
-        nextImage.onload = () => {
-            // Wait a short time to let fade-out apply
-            setTimeout(() => {
-                slide.src = nextImage.src; // change image
-                slide.style.opacity = 1;   // fade in
-                current++;
-            }, 2000); // 50ms delay ensures fade-out is applied
-        };
+            // 4️⃣ Fade in
+            slide.style.opacity = 1;
 
+            // 5️⃣ Move to next image
+            current++;
+
+            // 6️⃣ Schedule next slide
+            slideshowTimeout = setTimeout(showNext, 4000); // 4 seconds per slide
+
+        }, 2000); // fade-out duration = 2s (match your CSS)
     } else {
-        // End of slideshow
         clearInterval(slideshowInterval);
         slideshowContainer.style.display = "none";
         message.style.display = "block";
