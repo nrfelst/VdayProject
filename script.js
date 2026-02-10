@@ -26,26 +26,39 @@ let slideshowInterval;
 
 // 3️⃣ Function to show next image with fade effect
 function showNext() {
-    if (current < preloadedImages.length) {
-        // 1️⃣ Start fade-out
+    if (current < images.length) {
+        slide.style.opacity = 0; // fade out
+        // Start fade out
         slide.style.opacity = 0;
 
-        // 2️⃣ Wait for fade-out to finish (matches CSS transition duration)
+        // Preload the next image
+        const nextImage = new Image();
+        nextImage.src = images[current];
+
+        nextImage.onload = () => {
+            // Wait a short time to let fade-out apply
+            setTimeout(() => {
+                slide.src = nextImage.src; // change image
+                slide.style.opacity = 1;   // fade in
+                current++;
+            }, 2000); // 50ms delay ensures fade-out is applied
+        };
+
         setTimeout(() => {
-            // 3️⃣ Change image AFTER fade-out
-            slide.src = preloadedImages[current].src;
-
-            // 4️⃣ Fade in
-            slide.style.opacity = 1;
-
-            // 5️⃣ Move to next image
+            slide.src = images[current]; // change image
+            slide.style.opacity = 1; // fade in
             current++;
-
-            // 6️⃣ Schedule next slide
-            slideshowTimeout = setTimeout(showNext, 10000); // 4 seconds per slide
-
-        }, 2000); // fade-out duration = 2s (match your CSS)
+        }, 2000); // matches CSS transition duration
     } else {
+
+        // End of slideshow
+        clearInterval(slideshowInterval); // stop interval
+
+        // Uncomment the next line if you want it to loop instead of stopping:
+        // current = 0;
+
+        slideshowContainer.style.display = "none"; // hide slideshow
+        message.style.display = "block"; // show message
         clearInterval(slideshowInterval);
         slideshowContainer.style.display = "none";
         message.style.display = "block";
@@ -62,7 +75,7 @@ function startSlideshow() {
 
     current = 0; // reset counter
     showNext(); // show first image immediately
-    slideshowInterval = setInterval(showNext, 10000); // flip every 10 seconds
+    slideshowInterval = setInterval(showNext, 5000); // flip every 10 seconds
 }
 
 // 5️⃣ Start button click event
