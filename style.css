@@ -1,0 +1,65 @@
+/* ===== VALENTINE'S SLIDESHOW STYLES ===== */
+
+/* Make body take full screen and center everything */
+body {
+    display: flex;
+    justify-content: center; /* horizontal centering */
+    align-items: center;     /* vertical centering */
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+    background-color: #ffe6e6; /* soft pink background */
+}
+
+/* Slideshow image */
+#slide {
+    display: block;          /* makes the image behave like a block element */
+    margin: 0 auto;          /* center horizontally */
+    max-width: 90vw;         /* fit within 90% of viewport width */
+    max-height: 80vh;        /* fit within 80% of viewport height */
+    object-fit: contain;     /* preserve aspect ratio */
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    opacity: 2;
+    transition: opacity 1s ease-in-out;
+}
+/* START BUTTON */
+#start-button {
+    padding: 15px 30px;
+    font-size: 24px;
+    border-radius: 10px;
+    border: none;
+    background-color: #ff4d6d;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+#start-button:hover {
+    background-color: #ff1a45;
+    transform: scale(1.05);
+}
+
+/* FINAL MESSAGE */
+#message {
+    text-align: center;
+    margin-top: 20px;
+    animation: fadeInMessage 2s ease-in forwards; /* fade in animation */
+    color: #b30000;
+}
+
+/* Fade-in animation for message */
+@keyframes fadeInMessage {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Container for slideshow - full width and height, flexbox centers content */
+#slideshow-container {
+    display: flex;
+    justify-content: center; /* horizontal centering */
+    align-items: center;     /* vertical centering */
+    width: 100%;             /* full width of screen */
+    height: 80vh;            /* 80% of viewport height */
+}
