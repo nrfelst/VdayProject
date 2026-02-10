@@ -1,5 +1,5 @@
 // ===== VALENTINE'S SLIDESHOW SCRIPT =====
-
+window.addEventListener("DOMContentLoaded", () => {
 // 1️⃣ Generate image list automatically
 const images = [];
 for (let i = 2; i <= 39; i++) {
@@ -14,6 +14,30 @@ const startButton = document.getElementById("start-button");
 const startContainer = document.getElementById("start-container");
 const slideshowContainer = document.getElementById("slideshow-container");
 const music = document.getElementById("music");
+const heartsContainer = document.getElementById("hearts");
+
+    function startHearts() {
+        const heartsContainer = document.getElementById("hearts");
+        console.log("Hearts container found:", heartsContainer);
+        if (!heartsContainer) {
+            console.error("Hearts container not found!");
+            return;
+        }
+
+        function spawnHeart() {
+            const heart = document.createElement("div");
+            heart.className = "heart";
+            heart.textContent = "❤️";
+
+            heart.style.left = Math.random() * 100 + "%";
+
+            heartsContainer.appendChild(heart);
+
+            setTimeout(() => heart.remove(), 6000);
+        }
+
+        setInterval(spawnHeart, 400);
+    }
 
 // 3️⃣ Timing settings
 const fadeDuration = 2000;     // fade-out / fade-in duration in ms
@@ -38,6 +62,8 @@ images.forEach((src) => {
     };
     preloadedImages.push(img);
 });
+
+
 
 // 5️⃣ Crossfade to next image
 function showNext() {
@@ -78,7 +104,9 @@ function startSlideshow() {
 
     startContainer.style.display = "none";
     slideshowContainer.style.display = "block";
+    console.log("Starting slideshow + hearts...");
 
+    startHearts();
     // Start everything from current = 0
     current = 0;
     showNext();
@@ -89,3 +117,4 @@ function startSlideshow() {
 // 7️⃣ Start button click event
 startButton.disabled = true;  // disable until images are loaded
 startButton.addEventListener("click", startSlideshow);
+});
