@@ -21,22 +21,27 @@ let slideshowInterval;
 // 3️⃣ Function to show next image with fade effect
 function showNext() {
     if (current < images.length) {
-        slide.style.opacity = 0; // fade out
+        // Start fade out
+        slide.style.opacity = 0;
 
-        setTimeout(() => {
-            slide.src = images[current]; // change image
-            slide.style.opacity = 1; // fade in
-            current++;
-        }, 2000); // matches CSS transition duration
+        // Preload the next image
+        const nextImage = new Image();
+        nextImage.src = images[current];
+
+        nextImage.onload = () => {
+            // Wait a short time to let fade-out apply
+            setTimeout(() => {
+                slide.src = nextImage.src; // change image
+                slide.style.opacity = 1;   // fade in
+                current++;
+            }, 2000); // 50ms delay ensures fade-out is applied
+        };
+
     } else {
         // End of slideshow
-        clearInterval(slideshowInterval); // stop interval
-
-        // Uncomment the next line if you want it to loop instead of stopping:
-        // current = 0;
-
-        slideshowContainer.style.display = "none"; // hide slideshow
-        message.style.display = "block"; // show message
+        clearInterval(slideshowInterval);
+        slideshowContainer.style.display = "none";
+        message.style.display = "block";
     }
 }
 
