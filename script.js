@@ -42,9 +42,9 @@ function showNext() {
             current++;
 
             // 6️⃣ Schedule next slide
-            slideshowTimeout = setTimeout(showNext, 4000); // 4 seconds per slide
+            slideshowTimeout = setTimeout(showNext, 10000); // 4 seconds per slide
 
-        }, 2000); // fade-out duration = 2s (match your CSS)
+        }, 5000); // fade-out duration = 2s (match your CSS)
     } else {
         clearInterval(slideshowInterval);
         slideshowContainer.style.display = "none";
@@ -62,7 +62,7 @@ function startSlideshow() {
 
     current = 0; // reset counter
     showNext(); // show first image immediately
-    slideshowInterval = setInterval(showNext, 6000); // flip every 4 seconds
+    slideshowInterval = setInterval(showNext, 10000); // flip every 10 seconds
 }
 
 // 5️⃣ Start button click event

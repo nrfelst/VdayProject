@@ -45,7 +45,7 @@ body {
 #message {
     text-align: center;
     margin-top: 20px;
-    animation: fadeInMessage 2s ease-in forwards; /* fade in animation */
+    animation: fadeInMessage 10s ease-in forwards; /* fade in animation */
     color: #b30000;
 }
 
