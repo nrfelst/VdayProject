@@ -12,16 +12,18 @@ body {
 }
 
 /* Slideshow image */
-#slide {
-    display: block;          /* makes the image behave like a block element */
-    margin: 0 auto;          /* center horizontally */
-    max-width: 90vw;         /* fit within 90% of viewport width */
-    max-height: 80vh;        /* fit within 80% of viewport height */
-    object-fit: contain;     /* preserve aspect ratio */
+
+.slide {
+    position: absolute;     /* stack both images on top of each other */
+    top: 0;
+    left: 0;
+    width: 100%;            /* fill container width */
+    height: 100%;           /* fill container height */
+    object-fit: contain;    /* maintain aspect ratio without cropping */
     border-radius: 15px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    opacity: 0;
-    transition: opacity 2s ease-in-out;
+    opacity: 0;             /* initially hidden for fade */
+    transition: opacity 2s ease-in-out;  /* smooth crossfade */
 }
 /* START BUTTON */
 #start-button {
@@ -57,9 +59,9 @@ body {
 
 /* Container for slideshow - full width and height, flexbox centers content */
 #slideshow-container {
-    display: flex;
-    justify-content: center; /* horizontal centering */
-    align-items: center;     /* vertical centering */
-    width: 100%;             /* full width of screen */
-    height: 80vh;            /* 80% of viewport height */
+    position: relative;
+    width: 95vw;
+    height: 80vh;
+    margin: 0 auto;
+    overflow: hidden; /* hide anything outside the container */
 }

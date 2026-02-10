@@ -7,7 +7,8 @@ for (let i = 2; i <= 39; i++) {
 }
 
 // 2️⃣ Get HTML elements
-const slide = document.getElementById("slide");
+const slide1 = document.getElementById("slide1");
+const slide2 = document.getElementById("slide2");
 const message = document.getElementById("message");
 const startButton = document.getElementById("start-button");
 const startContainer = document.getElementById("start-container");
@@ -17,76 +18,74 @@ const music = document.getElementById("music");
 // 3️⃣ Timing settings
 const fadeDuration = 2000;     // fade-out / fade-in duration in ms
 const visibleDuration = 4000;  // fully visible duration in ms
-const pauseDuration = 500;     // pause between fade-out and fade-in in ms
+const pauseDuration = 500;     // pause between fade-out and fade-in
 
 let current = 0;               // current image index
-let preloadedImages = [];      // store preloaded images
+let preloadedImages = [];
+let showingSlide1 = true;      // track which slide is visible
 
-// 4️⃣ Preload all images before starting
+// 4️⃣ Preload all images
 let imagesLoaded = 0;
-images.forEach((src, index) => {
+images.forEach((src) => {
     const img = new Image();
     img.src = src;
     img.onload = () => {
         imagesLoaded++;
         if (imagesLoaded === images.length) {
             console.log("All images preloaded!");
-            startButton.disabled = false; // enable start button
+            startButton.disabled = false;
         }
     };
     preloadedImages.push(img);
 });
 
-// 5️⃣ Show next image with smooth fade
+// 5️⃣ Crossfade to next image
 function showNext() {
     if (current >= preloadedImages.length) {
-        // End of slideshow
         slideshowContainer.style.display = "none";
         message.style.display = "block";
         return;
     }
 
-    // Start fade-out
-    slide.style.opacity = 0;
+    const nextImage = preloadedImages[current];
 
+    // Determine which slide is hidden
+    const fadeInSlide = showingSlide1 ? slide2 : slide1;
+    const fadeOutSlide = showingSlide1 ? slide1 : slide2;
+
+    // Set next image src BEFORE fading in
+    fadeInSlide.src = nextImage.src;
+
+    // Wait a short pause to ensure rendering
     setTimeout(() => {
-        // Pause a little before switching image
-        setTimeout(() => {
-            // Switch image and fade in
-            slide.src = preloadedImages[current].src;
-            slide.style.opacity = 1;
-            current++;
+        fadeInSlide.style.opacity = 1;
+        fadeOutSlide.style.opacity = 0;
 
-            // Schedule next image after visible duration
-            setTimeout(showNext, visibleDuration);
-        }, pauseDuration);
-    }, fadeDuration);
+        showingSlide1 = !showingSlide1;
+        current++;
+
+        // Schedule next slide
+        setTimeout(showNext, visibleDuration);
+    }, pauseDuration);
 }
 
-// 6️⃣ Start slideshow function
+// 6️⃣ Start slideshow
 function startSlideshow() {
-    if (imagesLoaded < images.length) {
-        alert("Images are still loading, please wait a moment.");
+    if (imagesLoaded < preloadedImages.length) {
+        alert("Images are still loading, please wait.");
         return;
     }
 
-    startContainer.style.display = "none";       // hide start button
-    slideshowContainer.style.display = "block";  // show slideshow
+    startContainer.style.display = "none";
+    slideshowContainer.style.display = "block";
 
-    // Show first image immediately
-    slide.src = preloadedImages[0].src;
-    slide.style.opacity = 1;
-    current = 1; // next image to show
+    // Start everything from current = 0
+    current = 0;
+    showNext();
 
-    // Start music
     music.play().catch(() => console.log("Autoplay blocked"));
-
-    // Start the slideshow chain
-    setTimeout(showNext, visibleDuration); // wait visibleDuration before first fade
 }
 
 // 7️⃣ Start button click event
+startButton.disabled = true;  // disable until images are loaded
 startButton.addEventListener("click", startSlideshow);
-
-// 8️⃣ Disable start button until images are preloaded
-startButton.disabled = true;
