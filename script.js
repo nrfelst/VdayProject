@@ -44,7 +44,7 @@ function showNext() {
             // 6️⃣ Schedule next slide
             slideshowTimeout = setTimeout(showNext, 10000); // 4 seconds per slide
 
-        }, 5000); // fade-out duration = 2s (match your CSS)
+        }, 10000); // fade-out duration = 2s (match your CSS)
     } else {
         clearInterval(slideshowInterval);
         slideshowContainer.style.display = "none";
