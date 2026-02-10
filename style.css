@@ -14,16 +14,25 @@ body {
 /* Slideshow image */
 
 .slide {
-    position: absolute;     /* stack both images on top of each other */
-    top: 0;
-    left: 0;
-    width: 100%;            /* fill container width */
-    height: 100%;           /* fill container height */
-    object-fit: contain;    /* maintain aspect ratio without cropping */
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    opacity: 0;             /* initially hidden for fade */
-    transition: opacity 2s ease-in-out;  /* smooth crossfade */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    max-width: 90vw;
+    max-height: 80vh;
+
+    object-fit: contain;   /* keeps full image visible */
+
+    border: 4px solid #ff4d6d;   /* ❤️ the border */
+    border-radius: 20px;
+
+    box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+    /* Gradient overlay using pseudo-element trick */
+    background: linear-gradient(to top, rgba(0,0,0,0.3), transparent);
     z-index: 1;   /* ADD THIS */
 }
 
@@ -32,14 +41,38 @@ body {
 /* START BUTTON */
 #start-button {
     padding: 15px 30px;
-    font-size: 24px;
+    font-size: 1.2rem;
     border-radius: 10px;
     border: none;
     background-color: #ff4d6d;
     color: white;
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    margin-top: 20px;
     transition: transform 0.2s, background-color 0.2s;
+}
+
+.intro-title {
+    font-size: 2.2rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: #b30059; /* change if you prefer another above */
+    text-shadow: 0 2px 6px rgba(0,0,0,0.15); /* subtle depth */
+    animation: fadeIn 1.5s ease forwards;
+}
+#start-container {
+    display: flex;
+    flex-direction: column;      /* stack text and button vertically */
+    align-items: center;         /* center horizontally */
+    justify-content: center;     /* center vertically */
+    height: 100vh;               /* take full screen height */
+    padding: 20px;               /* add breathing room on small screens */
+    box-sizing: border-box;      /* ensures padding doesn't break layout */
+    text-align: center;          /* center the header text */
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-15px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 #start-button:hover {
@@ -67,7 +100,7 @@ body {
     width: 95vw;
     height: 80vh;
     margin: 0 auto;
-    overflow: hidden; /* hide anything outside the container */
+    overflow: visible; /* hide anything outside the container */
 }
 
 #hearts {
