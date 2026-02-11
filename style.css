@@ -94,6 +94,7 @@ body {
     text-align: center;
     margin: 5px 0;        /* spacing between lines */
     color: #b30000;       /* or something complementary */
+    animation: fadeInMessage 2s ease-in forwards; /* fade in animation */
 }
 /* Fade-in animation for message */
 @keyframes fadeInMessage {

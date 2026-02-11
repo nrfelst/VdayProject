@@ -2,7 +2,7 @@
 window.addEventListener("DOMContentLoaded", () => {
 // 1️⃣ Generate image list automatically
 const images = [];
-for (let i = 2; i <= 39; i++) {
+for (let i = 2; i <= 43; i++) {
     images.push(`images/image${i}.jpeg`);
 }
 
